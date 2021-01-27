@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.reasearch.jet2ttask.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,7 +37,11 @@ class MainActivity : AppCompatActivity() {
         })
 
         if (isNetworkConnected()) {
-            viewModel.getBlogs()
+            for (i in 1..5){
+                viewModel.getBlogs()
+                viewModel.getBlogsUsingCoroutine()
+            }
+
         } else {
             AlertDialog.Builder(this).setTitle("No Internet Connection")
                 .setMessage("Please check your internet connection and try again")
@@ -54,9 +59,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBlogList(){
-        linearLayoutManager = LinearLayoutManager(this)
-        binding.rvBlog.layoutManager = linearLayoutManager
-        blogAdapter = BlogAdapter(blogList)
-        binding.rvBlog.adapter = blogAdapter
+//        linearLayoutManager = LinearLayoutManager(this)
+//        binding.rvBlog.layoutManager = linearLayoutManager
+//        blogAdapter = BlogAdapter(blogList)
+//        binding.rvBlog.adapter = blogAdapter
+
+        // using scope function apply
+        binding.rvBlog.apply {
+            layoutManager = LinearLayoutManager(this.context)
+            blogAdapter = BlogAdapter(blogList)
+            adapter = blogAdapter
+        }
     }
 }

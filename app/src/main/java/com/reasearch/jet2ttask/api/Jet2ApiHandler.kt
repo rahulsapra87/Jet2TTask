@@ -2,6 +2,7 @@ package com.reasearch.jet2ttask.api
 
 import Blog
 import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -23,5 +24,9 @@ class Jet2ApiHandler {
     fun getBlogs(callback: Callback<List<Blog>>) { //5
         val call = service.searchBlogs()
         call.enqueue(callback)
+    }
+
+   suspend fun getBlogsUsingCoroutine() : Response<List<Blog>>{
+      return service.searchBlogsUsingCoroutine()
     }
 }
