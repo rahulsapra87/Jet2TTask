@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.reasearch.jet2ttask.R
+import com.reasearch.jet2ttask.concatString
 import com.reasearch.jet2ttask.databinding.ItemBlogBinding
 
 class BlogAdapter(var blogs: MutableList<Blog>) : RecyclerView.Adapter<BlogViewHolder>() {
@@ -35,8 +36,8 @@ class BlogAdapter(var blogs: MutableList<Blog>) : RecyclerView.Adapter<BlogViewH
         val blog: Blog? = blogs[position]
 
         with(holder.itemBlogBinding) {
-            tvLikes.text = blog?.likes?.toString().plus(" Likes")
-            tvComments.text = blog?.comments?.toString().plus(" Comments")
+            tvLikes.text = blog?.likes?.toString().concatString(" Likes")//plus(" Likes")
+            tvComments.text = blog?.comments?.toString().concatString(" Comments")//plus(" Comments")
             tvDesignation.text = blog?.user?.get(0)?.designation
             tvName.text = blog?.user?.get(0)?.name
             tvContent.text = blog?.content
@@ -53,13 +54,13 @@ class BlogAdapter(var blogs: MutableList<Blog>) : RecyclerView.Adapter<BlogViewH
         }
     }
 
-    private fun loadAvatar(imvAvatar : ImageView, avtarUrl : String?){
+    private fun loadAvatar(imvAvatar : ImageView, avtarUrl : String?, placeHolder :Int = R.drawable.placeholder){
         Glide.with(imvAvatar.context)
             .load(avtarUrl)
             .apply(
                 RequestOptions()
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder)
+                    .placeholder(placeHolder)
+                    .error(placeHolder)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(100, 100).priority(Priority.IMMEDIATE)
             )
@@ -67,12 +68,12 @@ class BlogAdapter(var blogs: MutableList<Blog>) : RecyclerView.Adapter<BlogViewH
             .into(imvAvatar)
     }
 
-    private fun loadArticleMedia(imvArticleMediar : ImageView, articleMedia : String?){
+    private fun loadArticleMedia(imvArticleMediar : ImageView, articleMedia : String?, placeHolder: Int = R.drawable.placeholder){
         Glide.with(imvArticleMediar.context)
             .load(articleMedia)
             .apply(
-                RequestOptions().placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder)
+                RequestOptions().placeholder(placeHolder)
+                    .error(placeHolder)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(300, 300).priority(Priority.IMMEDIATE)
             )
